@@ -1,2 +1,2 @@
 # StrukturePodataka
-Strukture podataka
+Strukture podataka računarstvo FESB
