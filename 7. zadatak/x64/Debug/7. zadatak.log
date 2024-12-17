@@ -1,0 +1,3 @@
+﻿  Source.c
+C:\Users\PC\source\repos\7. zadatak\7. zadatak\Source.c(177,20): warning C4047: 'return': 'int' differs in levels of indirection from 'void *'
+  7. zadatak.vcxproj -> C:\Users\PC\source\repos\7. zadatak\x64\Debug\7. zadatak.exe
