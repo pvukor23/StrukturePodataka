@@ -1,0 +1,5 @@
+﻿  1.zadatak.c
+C:\Users\PC\source\repos\1. zadatak\1. zadatak\1.zadatak.c(81,22): warning C4047: 'return': 'student *' differs in levels of indirection from 'int'
+C:\Users\PC\source\repos\1. zadatak\1. zadatak\1.zadatak.c(88,28): warning C4047: 'return': 'student *' differs in levels of indirection from 'int'
+C:\Users\PC\source\repos\1. zadatak\1. zadatak\1.zadatak.c(112,10): warning C4476: 'printf' : unknown type field character '\t' in format specifier
+  1. zadatak.vcxproj -> C:\Users\PC\source\repos\1. zadatak\Debug\1. zadatak.exe
