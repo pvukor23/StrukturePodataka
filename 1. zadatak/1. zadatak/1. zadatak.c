@@ -80,7 +80,7 @@ student* allocateMemoryAndReadStudents(int noStudents)
 	students = (student*)malloc(noStudents * sizeof(student));	// Dinamički alocira memoriju za niz struktura student, veličine 'noStudents'
 	if (!students)	// Provjera je li alokacija memorije uspješna (ili students == NULL)
 	{
-		printf("Can't allocate memory!\n");	// Ispisuje poruku o grešci ako alokacija nije uspjela
+		printf("Error allocating memory!\n");	// Ispisuje poruku o grešci ako alokacija nije uspjela
 		return ERROR_MALLOC;	// Povratna vrijednost označava grešku pri alokaciji memorije pomoću malloc funkcije
 	}
 
