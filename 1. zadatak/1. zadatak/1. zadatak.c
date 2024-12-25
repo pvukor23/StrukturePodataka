@@ -50,7 +50,7 @@ int main()
 
 int readNoRowsInFile()
 {
-	int counter = 0;	// Brojač redaka u datoteci
+	int rowCounter = 0;	// Brojač redaka u datoteci
 	FILE* filePointer = NULL;	// Pokazivač na datoteku
 	char buffer[MAX_SIZE] = { 0 };	// Buffer za privremeno pohranjivanje pročitanog reda
 
@@ -63,12 +63,12 @@ int readNoRowsInFile()
 	while (!feof(filePointer))	// Iteracija kroz datoteku do kraja
 	{
 		fgets(buffer, MAX_SIZE, filePointer);	// Čita redak iz datoteke te ga sprema u buffer
-		counter++;	// Povećava brojač redaka nakon svakog pročitanog reda
+		rowCounter++;	// Povećava brojač redaka nakon svakog pročitanog reda
 	}
 
 	fclose(filePointer);	// Zatvaranje datoteke
 
-	return counter;	// Vraća broj redaka u datoteci (broj studenata)
+	return rowCounter;	// Vraća broj redaka u datoteci (broj studenata)
 }
 
 student* allocateMemoryAndReadStudents(int noStudents)
