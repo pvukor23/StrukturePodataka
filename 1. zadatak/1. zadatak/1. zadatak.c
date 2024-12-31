@@ -46,7 +46,7 @@ int main()
 		free(students);	// Oslobađanje alocirane memorije
 	}
 
-	return 0;	// Kraj programa
+	return EXIT_SUCCESS;    // Kraj programa, signalizira uspješan završetak
 }
 
 int readNoRowsInFile()
@@ -122,5 +122,5 @@ int showStudents(int noStudents, student* students)
 			calculateRelativePoints(students[i].points));	// Relativni broj bodova koji se izračunava pomoću funkcije calculateRelativePoints (na 2 decimale)
 	}
 
-	return 0;	// Kraj programa
+	return EXIT_SUCCESS;    // Kraj programa, signalizira uspješan završetak
 }
