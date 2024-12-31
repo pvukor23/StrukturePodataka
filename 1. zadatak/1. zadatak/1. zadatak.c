@@ -18,7 +18,7 @@
 #define MAX_POINTS 15	// Maksimalni broj bodova koje student može ostvariti na kolokviju
 #define FILE_ERROR_OPEN -1 // Konstanta koja označava grešku pri otvaranju datoteke
 #define MALLOC_ERROR -2	// Konstanta koja označava grešku pri alokaciji memorije koristeći malloc funkciju
-#define SCANF_ERROR	-3	// Konstanta koja označava grešku pri čitanju podataka iz datoteke koristeći fscanf
+#define SCANF_ERROR -3	// Konstanta koja označava grešku pri čitanju podataka iz datoteke koristeći fscanf
 
 typedef struct _student {	// Definicija strukture za studenta
 	char name[MAX_LENGTH];	// Polje za ime studenta (do 128 znakova)
