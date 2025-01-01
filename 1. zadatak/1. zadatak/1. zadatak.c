@@ -4,7 +4,7 @@
 		studenata(ime, prezime, bodovi) i učitati iz datoteke sve zapise. Na ekran ispisati ime,
 		prezime, apsolutni i relativni broj bodova.
 
-		Napomena: Svaki redak datoteke sadrži ime i prezime studenta, te broj bodova na kolokviju.
+		Napomena: Svaki redak datoteke sadrži ime i prezime Studenta, te broj bodova na kolokviju.
 				  relatvan_br_bodova = br_bodova / max_br_bodova * 100 
 */
 
@@ -20,22 +20,22 @@
 #define MALLOC_ERROR -2	// Konstanta koja označava grešku pri alokaciji memorije koristeći malloc funkciju
 #define SCANF_ERROR -3	// Konstanta koja označava grešku pri čitanju podataka iz datoteke koristeći fscanf
 
-typedef struct _student {	// Definicija strukture za studenta
+typedef struct _Student {	// Definicija strukture za studenta
 	char name[MAX_LENGTH];	// Polje za ime studenta (do 128 znakova)
 	char surname[MAX_LENGTH];	// Polje za prezime studenta (do 128 znakova)
 	double points;	// Bodovi studenta na kolokviju
-} student;	// Alias za strukturu _student, sada možemo koristiti 'student' kao tip podataka
+} Student;	// Alias za strukturu _Student, sada možemo koristiti 'Student' kao tip podataka
 
 // Prototipi funkcija koje će biti implementirane
 int readNoRowsInFile();	// Funkcija koja vraća broj studenata (redaka u datoteci)
-student* allocateMemoryAndReadStudents(int noStudents);	// Funkcija koja alocira memoriju za studente i čita podatke iz datoteke
+Student* allocateMemoryAndReadStudents(int noStudents);	// Funkcija koja alocira memoriju za studente i čita podatke iz datoteke
 double calculateRelativePoints(double points);	// Funkcija koja izračunava relativne bodove
-int showStudents(int noStudents, student* students);	// Funkcija koja ispisuje podatke svih studenata
+int showStudents(int noStudents, Student* students);	// Funkcija koja ispisuje podatke svih studenata
 
 int main()
 {
 	int noRows = 0;	// Varijabla za broj redaka u datoteci (studenti)
-	student* students = NULL;	// Pokazivač na dinamički alocirane studente
+	Student* students = NULL;	// Pokazivač na dinamički alocirane studente
 
 	noRows = readNoRowsInFile();	// Pozivanje funkcije koja vraća broj studenata iz datoteke
 	if (noRows > 0)	// Ako je broj studenata veći od 0
@@ -58,8 +58,8 @@ int readNoRowsInFile()
 	filePointer = fopen("students.txt", "r");	// Otvaranje datoteke "students.txt" u načinu za čitanje ("r")
 	if (!filePointer)	// Provjera je li datoteka uspješno otvorena (ili filePointer == NULL)
 	{
-		printf("Error opening file!\n"); // Ispisuje poruku o grešci ako datoteka nije otvorena
-		return FILE_ERROR_OPEN;  // Povratna vrijednost označava grešku pri otvaranju datoteke
+		perror("Error opening file!\n"); // Ispisuje sustavsku poruku o grešci ako datoteka nije otvorena
+		exit(FILE_ERROR_OPEN);  // Prekida program i vraća vrijednost koja označava grešku pri otvaranju datoteke
 	}
 	while (!feof(filePointer))	// Iteracija kroz datoteku do kraja
 	{
@@ -72,24 +72,24 @@ int readNoRowsInFile()
 	return rowCounter;	// Vraća broj redaka u datoteci (broj studenata)
 }
 
-student* allocateMemoryAndReadStudents(int noStudents)
+Student* allocateMemoryAndReadStudents(int noStudents)
 {
 	FILE* filePointer = NULL;	// Pokazivač na datoteku
-	student* students = NULL;	// Pokazivač na dinamički alocirani niz struktura tipa student
+	Student* students = NULL;	// Pokazivač na dinamički alocirani niz struktura tipa Student
 	int i = 0;	// Indeks za iteraciju kroz niz studenata
 
 	filePointer = fopen("students.txt", "r");	// Otvaranje datoteke "students.txt" u načinu za čitanje ("r")
 	if (!filePointer)	// Provjera je li datoteka uspješno otvorena (ili filePointer == NULL)
 	{
-		printf("Error opening file!\n");	// Ispisuje poruku o grešci ako datoteka nije otvorena
-		return FILE_ERROR_OPEN;	// Povratna vrijednost označava grešku pri otvaranju datoteke
+		perror("Error opening file!\n");	// Ispisuje sustavsku poruku o grešci ako datoteka nije otvorena
+		exit(FILE_ERROR_OPEN);	// Prekida program i vraća vrijednost koja označava grešku pri otvaranju datoteke
 	}
 
-	students = (student*)malloc(noStudents * sizeof(student));	// Dinamički alocira memoriju za niz struktura student, veličine 'noStudents'
+	students = (Student*)malloc(noStudents * sizeof(Student));	// Dinamički alocira memoriju za niz struktura Student, veličine 'noStudents'
 	if (!students)	// Provjera je li alokacija memorije uspješna (ili students == NULL)
 	{
-		printf("Error allocating memory!\n");	// Ispisuje poruku o grešci ako alokacija nije uspjela
-		return MALLOC_ERROR;	// Povratna vrijednost označava grešku pri alokaciji memorije pomoću malloc funkcije
+		perror("Error allocating memory!\n");	// Ispisuje sustavsku poruku o grešci ako alokacija nije uspjela
+		exit(MALLOC_ERROR);	// Prekida program i vraća vrijednost koja označava grešku pri alokaciji memorije pomoću malloc funkcije
 	}
 
 	while (!feof(filePointer))	// Iteracija kroz datoteku do kraja
@@ -109,7 +109,7 @@ double calculateRelativePoints(double points)
 	return ((points / MAX_POINTS) * 100);  // Relativni broj bodova se izračunava kao (bodovi studenta / maksimalni broj bodova) * 100
 }
 
-int showStudents(int noStudents, student* students)
+int showStudents(int noStudents, Student* students)
 {
 	int i;	// Indeks za iteraciju kroz niz studenata
 
