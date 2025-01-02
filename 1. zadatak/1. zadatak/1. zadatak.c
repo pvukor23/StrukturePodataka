@@ -69,7 +69,7 @@ int readNoRowsInFile()
 
 	/*
 
-	Ne koristite feof() jer može uzrokovati greške pri čitanju, posebno zbog praznih redaka na kraju datoteke!!!
+	Ne koristiti feof() jer može uzrokovati greške pri čitanju, posebno zbog praznih redaka na kraju datoteke!!!
 
 	while (!feof(filePointer))	// Iteracija kroz datoteku do kraja
 	{
