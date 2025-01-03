@@ -20,7 +20,7 @@
 #define MALLOC_ERROR -2	// Konstanta koja označava grešku pri alokaciji memorije koristeći malloc funkciju
 #define SCANF_ERROR -3	// Konstanta koja označava grešku pri čitanju podataka iz datoteke koristeći fscanf
 
-typedef struct _student {	// Definicija strukture za studenta
+typedef struct _Student {	// Definicija strukture za studenta
 	char name[MAX_LENGTH];	// Polje za ime studenta (do 128 znakova)
 	char surname[MAX_LENGTH];	// Polje za prezime studenta (do 128 znakova)
 	double points;	// Bodovi studenta na kolokviju
@@ -91,7 +91,7 @@ Student* allocateMemoryAndReadStudents(int noStudents)
 {
 	FILE* filePointer = NULL;	// Pokazivač na datoteku
 	Student* students = NULL;	// Pokazivač na dinamički alocirani niz struktura tipa Student
-	int i;	// Indeks za iteraciju kroz niz studenata
+	int i = 0;	// Indeks za iteraciju kroz niz studenata
 
 	filePointer = fopen("students.txt", "r");	// Otvaranje datoteke "students.txt" u načinu za čitanje ("r")
 	if (!filePointer)	// Provjera je li datoteka uspješno otvorena (ili filePointer == NULL)
@@ -137,7 +137,7 @@ double calculateRelativePoints(double points)
 
 int showStudents(int noStudents, Student* students)
 {
-	int i;	// Indeks za iteraciju kroz niz studenata
+	int i = 0;	// Indeks za iteraciju kroz niz studenata
 
 	for (i = 0; i < noStudents; i++)	// Iteracija kroz sve studente
 	{
@@ -150,3 +150,5 @@ int showStudents(int noStudents, Student* students)
 
 	return EXIT_SUCCESS;    // Kraj programa, signalizira uspješan završetak
 }
+
+
