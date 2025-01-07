@@ -1,10 +1,10 @@
-﻿#define _CRT_SECURE_NO_WARNINGS 
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <stdlib.h>
 #include <stdio.h>
 
 struct _tree;
 typedef struct _tree* tp;
-
 typedef struct _tree {
     int value;
     tp right;
@@ -23,6 +23,17 @@ void Printcurrentlevel(tree* root, int level);
 int Search(tree* root, int value);
 tree* Delete(tree* root, int value);
 tree* Min(tree* root);
+void FreeTree(tree* root);  // Nova funkcija za oslobađanje memorije
+
+// Funkcija za unos validnog broja
+int getValidIntInput() {
+    int input;
+    while (scanf("%d", &input) != 1) {
+        printf("Neispravan unos. Pokušajte ponovo: ");
+        while (getchar() != '\n'); // Očisti bafer
+    }
+    return input;
+}
 
 int main() {
     tree* root = NULL;
@@ -38,8 +49,8 @@ int main() {
     int choice, value;
 
     do {
-        printf("Odaberi opciju: \n");
-        printf("\n1. Dodaj element\n");
+        printf("\nOdaberi opciju: \n");
+        printf("1. Dodaj element\n");
         printf("2. Ispis (preorder)\n");
         printf("3. Ispis (inorder)\n");
         printf("4. Ispis (postorder)\n");
@@ -48,12 +59,12 @@ int main() {
         printf("7. Izbrisi element\n");
         printf("8. Izlaz\n");
 
-        scanf("%d", &choice);
+        choice = getValidIntInput(); // Koristi funkciju za validan unos
 
         switch (choice) {
         case 1:
             printf("Unesi vrijednost: ");
-            scanf("%d", &value);
+            value = getValidIntInput();
             root = Insert(root, value);
             break;
         case 2:
@@ -74,7 +85,7 @@ int main() {
             break;
         case 6:
             printf("Unesi vrijednost za pretragu: ");
-            scanf("%d", &value);
+            value = getValidIntInput();
 
             if (Search(root, value) == 1)
                 printf("Element pronaden.\n");
@@ -84,7 +95,7 @@ int main() {
             break;
         case 7:
             printf("Unesi vrijednost za brisanje: ");
-            scanf("%d", &value);
+            value = getValidIntInput();
             root = Delete(root, value);
             break;
         case 8:
@@ -96,12 +107,18 @@ int main() {
 
     } while (choice != 8);
 
+    // Oslobađanje memorije pre nego što program završi
+    FreeTree(root);
     return 0;
 }
 
 // Kreira novi čvor sa zadanim vrijednostima
 tree* Create(int value) {
     tree* new = (tree*)malloc(sizeof(tree));
+    if (new == NULL) {
+        printf("Greška pri alokaciji memorije!\n");
+        exit(1);  // Zaustavi program ako alokacija ne uspe
+    }
     new->value = value;
     new->left = new->right = NULL;
     return new;
@@ -151,7 +168,13 @@ void Postorder(tree* root) {
 void Level(tree* root) {
     int h = Height(root);
     for (int i = 0; i <= h; i++)
+    {
+        printf("level: %d\n", i);
         Printcurrentlevel(root, i);
+        
+    }
+        
+    
 }
 
 // Funkcija za računanje visine stabla
@@ -172,7 +195,7 @@ void Printcurrentlevel(tree* root, int level) {
         return;
 
     if (level == 1)
-        printf("%d ", root->value); // Ispisuje vrijednost na trenutnoj razini
+        printf("%d", root->value); // Ispisuje vrijednost na trenutnoj razini
     else if (level > 1) {
         Printcurrentlevel(root->left, level - 1);  // Ispisuje lijevo podstablo
         Printcurrentlevel(root->right, level - 1); // Ispisuje desno podstablo
@@ -230,4 +253,13 @@ tree* Delete(tree* root, int value) {
         }
     }
     return root;
+}
+
+// Funkcija za oslobađanje memorije (rekursivno oslobodi sve čvorove)
+void FreeTree(tree* root) {
+    if (root != NULL) {
+        FreeTree(root->left);
+        FreeTree(root->right);
+        free(root);
+    }
 }
