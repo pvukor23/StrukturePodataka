@@ -1,0 +1,3 @@
+﻿  9. zadatak.c
+C:\Users\PC\source\repos\9. zadatak\9. zadatak\9. zadatak.c(21,18): warning C4244: 'function': conversion from 'time_t' to 'unsigned int', possible loss of data
+  9. zadatak.vcxproj -> C:\Users\PC\source\repos\9. zadatak\Debug\9. zadatak.exe

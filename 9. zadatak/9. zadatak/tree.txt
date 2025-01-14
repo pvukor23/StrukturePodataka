@@ -1,0 +1,14 @@
+Random level order print (c):
+32 
+15 69 
+45 13 24 
+34 20 72 
+70 
+
+Level order print after replacement (c):
+450 
+131 222 
+90 64 0 
+26 0 0 
+0 
+
