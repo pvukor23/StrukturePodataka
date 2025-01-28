@@ -1,0 +1,8 @@
+﻿  2. zadatak.c
+C:\Users\PC\source\repos\2. zadatak\2. zadatak\2. zadatak.c(147,22): warning C4047: 'function': 'Position' differs in levels of indirection from 'Position *'
+C:\Users\PC\source\repos\2. zadatak\2. zadatak\2. zadatak.c(147,17): warning C4024: 'deleteList': different types for formal and actual parameter 1
+C:\Users\PC\source\repos\2. zadatak\2. zadatak\2. zadatak.c(158,18): warning C4047: 'function': 'Position' differs in levels of indirection from 'Position *'
+C:\Users\PC\source\repos\2. zadatak\2. zadatak\2. zadatak.c(158,13): warning C4024: 'deleteList': different types for formal and actual parameter 1
+C:\Users\PC\source\repos\2. zadatak\2. zadatak\2. zadatak.c(173,16): warning C4018: '<': signed/unsigned mismatch
+C:\Users\PC\source\repos\2. zadatak\2. zadatak\2. zadatak.c(182,20): warning C4018: '>=': signed/unsigned mismatch
+  2. zadatak.vcxproj -> C:\Users\PC\source\repos\2. zadatak\Debug\2. zadatak.exe
