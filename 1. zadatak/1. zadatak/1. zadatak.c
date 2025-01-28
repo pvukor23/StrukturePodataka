@@ -18,7 +18,10 @@
 #define MAX_POINTS 15	// Maksimalni broj bodova koje student može ostvariti na kolokviju
 #define FILE_ERROR_OPEN -1 // Konstanta koja označava grešku pri otvaranju datoteke
 #define MALLOC_ERROR -2	// Konstanta koja označava grešku pri alokaciji memorije koristeći malloc funkciju
-#define SCANF_ERROR -3	// Konstanta koja označava grešku pri čitanju podataka iz datoteke koristeći fscanf
+
+#define RESET   "\033[0m"	// ANSI escape sekvenca za resetiranje svih stilova i boja na zadane postavke terminala
+#define RED     "\033[31m"	// ANSI escape sekvenca za postavljanje boje teksta na crvenu
+#define BOLD    "\033[1m"	// ANSI escape sekvenca za podebljavanje teksta (bold stil)
 
 typedef struct _Student {	// Definicija strukture za studenta
 	char name[MAX_LENGTH];	// Polje za ime studenta (do 128 znakova)
@@ -35,20 +38,20 @@ int showStudents(int noStudents, Student* students);	// Funkcija koja ispisuje p
 int main()
 {
 	int noRows = 0;	// Varijabla za broj redaka u datoteci (studenti)
-	Student* students = NULL;	// Pokazivač na dinamički alocirane studente
+	Student* students = NULL;	// Pokazivač na niz studenata 
 
 	noRows = readNoRowsInFile();	// Pozivanje funkcije koja vraća broj studenata iz datoteke
 	if (noRows > 0)	// Ako je broj studenata veći od 0
 	{
-		students = allocateMemoryAndReadStudents(noRows);	// Alociraj memoriju i učitaj podatke o studentima
+		students = allocateMemoryAndReadStudents(noRows);	// Pozivanje funkcije koja dinamički alocira memoriju za niz studenata i učitava podatke o njima
 		if (!students)	// Provjera je li alokacija memorije uspješna (ili students == NULL)
 		{
-			printf("Error allocating memory!\n");	// Ispisuje poruku o grešci ako alokacija nije uspjela
-			return MALLOC_ERROR;	// Povratna vrijednost označava grešku pri alokaciji memorije pomoću malloc funkcije	
+			printf("Error allocating memory!\n");	// Ispis poruke o grešci ako alokacija memorije nije uspjela
+			return MALLOC_ERROR;	// Povratna vrijednost koja označava grešku pri alokaciji memorije pomoću malloc funkcije	
 		}
 		showStudents(noRows, students);	// Ispisivanje podataka svih studenata
 
-		free(students);	// Oslobađanje alocirane memorije
+		free(students);	// Oslobađanje prethodne alocirane memorije
 	}
 
 	return EXIT_SUCCESS;    // Kraj programa, signalizira uspješan završetak
@@ -63,8 +66,8 @@ int readNoRowsInFile()
 	filePointer = fopen("students.txt", "r");	// Otvaranje datoteke "students.txt" u načinu za čitanje ("r")
 	if (!filePointer)	// Provjera je li datoteka uspješno otvorena (ili filePointer == NULL)
 	{
-		printf("Error opening file!\n"); // Ispisuje poruku o grešci ako datoteka nije otvorena
-		return FILE_ERROR_OPEN;  // Povratna vrijednost označava grešku pri otvaranju datoteke
+		printf("Error opening file!\n"); // Ispis poruke o grešci ako datoteka nije otvorena
+		return FILE_ERROR_OPEN;  // Povratna vrijednost koja označava grešku pri otvaranju datoteke
 	}
 
 	/*
@@ -90,32 +93,32 @@ int readNoRowsInFile()
 Student* allocateMemoryAndReadStudents(int noStudents)
 {
 	FILE* filePointer = NULL;	// Pokazivač na datoteku
-	Student* students = NULL;	// Pokazivač na dinamički alocirani niz struktura tipa Student
+	Student* students = NULL;	// Pokazivač na dinamički alocirani niz studenata tipa Student
 	int i = 0;	// Indeks za iteraciju kroz niz studenata
 
 	filePointer = fopen("students.txt", "r");	// Otvaranje datoteke "students.txt" u načinu za čitanje ("r")
 	if (!filePointer)	// Provjera je li datoteka uspješno otvorena (ili filePointer == NULL)
 	{
-		printf("Error opening file!\n");	// Ispisuje poruku o grešci ako datoteka nije otvorena
-		return FILE_ERROR_OPEN;	// Povratna vrijednost označava grešku pri otvaranju datoteke
+		printf("Error opening file!\n");	// Ispis poruke o grešci ako datoteka nije otvorena
+		return NULL;	// Povratna vrijednost označava grešku pri otvaranju datoteke, NULL a ne FILE_ERROR_OPEN jer funckija vraća pokazivač
 	}
 
-	students = (Student*)malloc(noStudents * sizeof(Student));	// Dinamički alocira memoriju za niz struktura Student, veličine 'noStudents'
+	students = (Student*)malloc(noStudents * sizeof(Student));	// Dinamički alocira memoriju za niz studenata, veličine 'noStudents'
 	if (!students)	// Provjera je li alokacija memorije uspješna (ili students == NULL)
 	{
-		printf("Error allocating memory!\n");	// Ispisuje poruku o grešci ako alokacija nije uspjela
+		printf("Error allocating memory!\n");	// Ispis poruke o grešci ako alokacija memorije nije uspjela
 		fclose(filePointer);	// Zatvaranje datoteke
-		return MALLOC_ERROR;	// Povratna vrijednost označava grešku pri alokaciji memorije pomoću malloc funkcije
+		return NULL;	// Povratna vrijednost koja označava grešku pri alokaciji memorije pomoću malloc funkcije, NULL a ne MALLOC_ERROR jer funckija vraća pokazivač
 	}
 
 	for (i = 0; i < noStudents; i++)	// Iteracija kroz sve studente 
 	{
 		if (fscanf(filePointer, " %s %s %lf", students[i].name, students[i].surname, &students[i].points) != 3)	// Provjerava je li uspješno pročitao 3 vrijednosti (ime, prezime i bodove) iz datoteke te ih sprema u trenutnu strukturu student
 		{
-			printf("Error reading data from file!\n");	// Ispisuje poruku o grešci ako čitanje podataka iz datoteke nije uspješno
-			free(students);	// Oslobađanje alocirane memorije
+			printf("Error reading data from file!\n");	// Ispis poruke o grešci ako čitanje podataka iz datoteke nije uspješno
+			free(students);	// Oslobađanje prethodne alocirane memorije
 			fclose(filePointer);	// Zatvaranje datoteke
-			return SCANF_ERROR;	// Povratna vrijednost označava grešku pri čitanju podataka iz datoteke
+			return NULL;	// Povratna vrijednost koja označava grešku pri čitanju podataka iz datoteke, NULL a ne SCANF_ERROR jer funckija vraća pokazivač
 		}		
 	}
 
@@ -126,10 +129,10 @@ Student* allocateMemoryAndReadStudents(int noStudents)
 
 double calculateRelativePoints(double points)
 {
-	if (points < 0 || points > MAX_POINTS)	// Provjera jesu li bodovi unutar prihvatljivog raspona (0 do MAX_POINTS)
+	if (points < 0 || points > MAX_POINTS)	// Provjera jesu li bodovi unutar dopuštenog raspona (0 do MAX_POINTS)
 	{
-		printf("\033[1;31mInvalid points: %.2lf. Points must be between 0 and %d.\033[0m\n", points, MAX_POINTS);	// Ispisuje poruku o grešci u crvenoj boji ako su bodovi izvan dopuštenog raspona
-		return 0;	// Vraća 0 kao signal greške, jer bodovi nisu valjani
+		printf(BOLD RED "\nInvalid points: %.2lf. Points must be between 0 and %d.\n" RESET, points, MAX_POINTS);	// Ispis poruke o grešci u crvenoj boji s podebljanim stilom ako su uneseni bodovi izvan dopuštenog raspona (0 do MAX_POINTS)
+		return 0;	// Vraća 0 kao signal greške, jer bodovi nisu u valjanom rasponu
 	} 
 	else	// Ako su bodovi unutar raspona, izračunava relativni broj bodova
 		return ((points / MAX_POINTS) * 100);  // Relativni broj bodova se izračunava kao (bodovi studenta / maksimalni broj bodova) * 100
@@ -141,14 +144,14 @@ int showStudents(int noStudents, Student* students)
 
 	for (i = 0; i < noStudents; i++)	// Iteracija kroz sve studente
 	{
-		printf("Name: %-10s\t Surname: %-10s\t Absolute points: %.2lf\t\t Relative points: %.2lf%%\t\n",	// Ispisivanje podataka svakog studenta
+		printf("Name: %-10s\tSurname: %-10s\t Absolute points: %.2lf\t\t Relative points: %.2lf%%\t\n",	// Ispis podataka svakog studenta
 			students[i].name,	// Ime studenta (minimalna širina polja za ispisivanje stringa je 10 znakova, poravnato ulijevo)  
 			students[i].surname,	// Prezime studenta (minimalna širina polja za ispisivanje stringa je 10 znakova, poravnato ulijevo)
 			students[i].points,	// Apsolutni broj bodova (na 2 decimale)
-			calculateRelativePoints(students[i].points));	// Relativni broj bodova izražen kao postotak (na 2 decimale) 
+			calculateRelativePoints(students[i].points));	// Pozivanje funkcije za izračun relativnih broja bodova, izražen kao postotak (na 2 decimale) 
 	}
 
-	return EXIT_SUCCESS;    // Kraj programa, signalizira uspješan završetak
+	return EXIT_SUCCESS;    // Kraj funkcije, signalizira uspješan završetak
 }
 
 
