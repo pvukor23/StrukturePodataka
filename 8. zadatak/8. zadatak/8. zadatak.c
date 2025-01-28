@@ -1,157 +1,233 @@
-/*
-	1.	Napisati program koji prvo pročita koliko redaka ima datoteka, tj.koliko ima studenata
-		zapisanih u datoteci. Nakon toga potrebno je dinamički alocirati prostor za niz struktura
-		studenata(ime, prezime, bodovi) i učitati iz datoteke sve zapise. Na ekran ispisati ime,
-		prezime, apsolutni i relativni broj bodova.
+#define _CRT_SECURE_NO_WARNINGS 
+#include <stdlib.h>
+#include <stdio.h>
 
-		Napomena: Svaki redak datoteke sadrži ime i prezime Studenta, te broj bodova na kolokviju.
-				  relatvan_br_bodova = br_bodova / max_br_bodova * 100
-*/
+struct _tree;
+typedef struct _tree* tp;
 
-#define _CRT_SECURE_NO_WARNINGS	// Isključuje sigurnosna upozorenja na funkcije poput scanf, fgets itd.
+typedef struct _tree {
+    int value;
+    tp right;
+    tp left;
+} tree;
 
-#include <stdio.h>	// Uključivanje standardne biblioteke za ulaz/izlaz (npr. printf, fscanf)
-#include <stdlib.h>	// Uključivanje standardne biblioteke za rad s memorijom (npr. malloc, free)
+// Funkcije za rad sa stablom
+tree* Insert(tree* root, int value);
+tree* Create(int value);
+void Preorder(tree* root);
+void Inorder(tree* root);
+void Postorder(tree* root);
+void Level(tree* root);
+int Height(tree* root);
+void Printcurrentlevel(tree* root, int level);
+int Search(tree* root, int value);
+tree* Delete(tree* root, int value);
+tree* Min(tree* root);
 
-#define MAX_LENGTH 128	// Maksimalna veličina stringa za ime i prezime
-#define MAX_LINE 1024	// Maksimalna veličina buffera za čitanje linije iz datoteke
-#define MAX_POINTS 15	// Maksimalni broj bodova koje student može ostvariti na kolokviju
-#define FILE_ERROR_OPEN -1 // Konstanta koja označava grešku pri otvaranju datoteke
-#define MALLOC_ERROR -2	// Konstanta koja označava grešku pri alokaciji memorije koristeći malloc funkciju
+int main() {
+    tree* root = NULL;
 
-#define RESET   "\033[0m"	// ANSI escape sekvenca za resetiranje svih stilova i boja na zadane postavke terminala
-#define RED     "\033[31m"	// ANSI escape sekvenca za postavljanje boje teksta na crvenu
-#define BOLD    "\033[1m"	// ANSI escape sekvenca za podebljavanje teksta (bold stil)
+    int numbers[] = { 5, 3, 2, 4, 7, 6, 8 };
+    int n = sizeof(numbers) / sizeof(numbers[0]);
 
-typedef struct _Student {	// Definicija strukture za studenta
-	char name[MAX_LENGTH];	// Polje za ime studenta (do 128 znakova)
-	char surname[MAX_LENGTH];	// Polje za prezime studenta (do 128 znakova)
-	double points;	// Bodovi studenta na kolokviju
-} Student;	// Alias za strukturu _Student, sada možemo koristiti 'Student' kao tip podataka
+    // Umetanje elemenata u stablo
+    for (int i = 0; i < n; i++) {
+        root = Insert(root, numbers[i]);
+    }
 
-// Prototipi funkcija koje će biti implementirane
-int readNoRowsInFile();	// Funkcija koja vraća broj studenata (redaka u datoteci)
-Student* allocateMemoryAndReadStudents(int noStudents);	// Funkcija koja alocira memoriju za studente i čita podatke iz datoteke
-double calculateRelativePoints(double points);	// Funkcija koja izračunava relativne bodove
-int showStudents(int noStudents, Student* students);	// Funkcija koja ispisuje podatke svih studenata
+    int choice, value;
 
-int main()
-{
-	int noRows = 0;	// Varijabla za broj redaka u datoteci (studenti)
-	Student* students = NULL;	// Pokazivač na niz studenata 
+    do {
+        printf("Odaberi opciju: \n");
+        printf("\n1. Dodaj element\n");
+        printf("2. Ispis (preorder)\n");
+        printf("3. Ispis (inorder)\n");
+        printf("4. Ispis (postorder)\n");
+        printf("5. Ispis (level order)\n");
+        printf("6. Pronadi element\n");
+        printf("7. Izbrisi element\n");
+        printf("8. Izlaz\n");
 
-	noRows = readNoRowsInFile();	// Pozivanje funkcije koja vraća broj studenata iz datoteke
-	if (noRows > 0)	// Ako je broj studenata veći od 0
-	{
-		students = allocateMemoryAndReadStudents(noRows);	// Pozivanje funkcije koja dinamički alocira memoriju za niz studenata i učitava podatke o njima
-		if (!students)	// Provjera je li alokacija memorije uspješna (ili students == NULL)
-		{
-			printf("Error allocating memory!\n");	// Ispis poruke o grešci ako alokacija memorije nije uspjela
-			return MALLOC_ERROR;	// Povratna vrijednost koja označava grešku pri alokaciji memorije pomoću malloc funkcije	
-		}
-		showStudents(noRows, students);	// Ispisivanje podataka svih studenata
+        scanf("%d", &choice);
 
-		free(students);	// Oslobađanje prethodne alocirane memorije
-	}
+        switch (choice) {
+        case 1:
+            printf("Unesi vrijednost: ");
+            scanf("%d", &value);
+            root = Insert(root, value);
+            break;
+        case 2:
+            Preorder(root);
+            printf("\n");
+            break;
+        case 3:
+            Inorder(root);
+            printf("\n");
+            break;
+        case 4:
+            Postorder(root);
+            printf("\n");
+            break;
+        case 5:
+            Level(root);
+            printf("\n");
+            break;
+        case 6:
+            printf("Unesi vrijednost za pretragu: ");
+            scanf("%d", &value);
 
-	return EXIT_SUCCESS;    // Kraj programa, signalizira uspješan završetak
+            if (Search(root, value) == 1)
+                printf("Element pronaden.\n");
+            else {
+                printf("Element ne postoji.\n");
+            }
+            break;
+        case 7:
+            printf("Unesi vrijednost za brisanje: ");
+            scanf("%d", &value);
+            root = Delete(root, value);
+            break;
+        case 8:
+            printf("Izlaz.\n");
+            break;
+        default:
+            printf("Krivi unos.\n ");
+        }
+
+    } while (choice != 8);
+
+    return 0;
 }
 
-int readNoRowsInFile()
-{
-	FILE* filePointer = NULL;	// Pokazivač na datoteku
-	char buffer[MAX_LINE] = { 0 };	// Buffer za privremeno pohranjivanje pročitanog reda
-	int rowCounter = 0;	// Brojač redaka u datoteci
-
-	filePointer = fopen("students.txt", "r");	// Otvaranje datoteke "students.txt" u načinu za čitanje ("r")
-	if (!filePointer)	// Provjera je li datoteka uspješno otvorena (ili filePointer == NULL)
-	{
-		printf("Error opening file!\n"); // Ispis poruke o grešci ako datoteka nije otvorena
-		return FILE_ERROR_OPEN;  // Povratna vrijednost koja označava grešku pri otvaranju datoteke
-	}
-
-	/*
-
-	Ne koristiti feof() jer može uzrokovati greške pri čitanju, posebno zbog praznih redaka na kraju datoteke!!!
-
-	while (!feof(filePointer))	// Iteracija kroz datoteku do kraja
-	{
-		fgets(buffer, MAX_LINE, filePointer);	// Čita redak iz datoteke te ga sprema u buffer
-		rowCounter++;	// Povećava brojač redaka nakon svakog pročitanog reda
-	}
-
-	*/
-
-	while (fgets(buffer, MAX_LINE, filePointer) != NULL)	// Čita jedan redak iz datoteke i pohranjuje ga u buffer dok ne dođe do kraja datoteke (NULL označava kraj datoteke)
-		rowCounter++;	// Povećava brojač redaka nakon svakog uspješno pročitanog reda
-	
-	fclose(filePointer);	// Zatvaranje datoteke
-
-	return rowCounter;	// Vraća broj redaka u datoteci (broj studenata)
+// Kreira novi čvor sa zadanim vrijednostima
+tree* Create(int value) {
+    tree* new = (tree*)malloc(sizeof(tree));
+    new->value = value;
+    new->left = new->right = NULL;
+    return new;
 }
 
-Student* allocateMemoryAndReadStudents(int noStudents)
-{
-	FILE* filePointer = NULL;	// Pokazivač na datoteku
-	Student* students = NULL;	// Pokazivač na dinamički alocirani niz studenata tipa Student
-	int i = 0;	// Indeks za iteraciju kroz niz studenata
+// Umetanje novog elementa u stablo
+tree* Insert(tree* root, int value) {
+    if (root == NULL)
+        return Create(value);
 
-	filePointer = fopen("students.txt", "r");	// Otvaranje datoteke "students.txt" u načinu za čitanje ("r")
-	if (!filePointer)	// Provjera je li datoteka uspješno otvorena (ili filePointer == NULL)
-	{
-		printf("Error opening file!\n");	// Ispis poruke o grešci ako datoteka nije otvorena
-		return NULL;	// Povratna vrijednost označava grešku pri otvaranju datoteke, NULL a ne FILE_ERROR_OPEN jer funckija vraća pokazivač
-	}
+    if (value < root->value)
+        root->left = Insert(root->left, value);
+    else if (value > root->value)
+        root->right = Insert(root->right, value);
 
-	students = (Student*)malloc(noStudents * sizeof(Student));	// Dinamički alocira memoriju za niz studenata, veličine 'noStudents'
-	if (!students)	// Provjera je li alokacija memorije uspješna (ili students == NULL)
-	{
-		printf("Error allocating memory!\n");	// Ispis poruke o grešci ako alokacija memorije nije uspjela
-		fclose(filePointer);	// Zatvaranje datoteke
-		return NULL;	// Povratna vrijednost koja označava grešku pri alokaciji memorije pomoću malloc funkcije, NULL a ne MALLOC_ERROR jer funckija vraća pokazivač
-	}
-
-	for (i = 0; i < noStudents; i++)	// Iteracija kroz sve studente 
-	{
-		if (fscanf(filePointer, " %s %s %lf", students[i].name, students[i].surname, &students[i].points) != 3)	// Provjerava je li uspješno pročitao 3 vrijednosti (ime, prezime i bodove) iz datoteke te ih sprema u trenutnu strukturu student
-		{
-			printf("Error reading data from file!\n");	// Ispis poruke o grešci ako čitanje podataka iz datoteke nije uspješno
-			free(students);	// Oslobađanje prethodne alocirane memorije
-			fclose(filePointer);	// Zatvaranje datoteke
-			return NULL;	// Povratna vrijednost koja označava grešku pri čitanju podataka iz datoteke, NULL a ne SCANF_ERROR jer funckija vraća pokazivač
-		}		
-	}
-
-	fclose(filePointer);	// Zatvaranje datoteke
-
-	return students;	// Vraća pokazivač na alocirani niz studenata
+    return root;
 }
 
-double calculateRelativePoints(double points)
-{
-	if (points < 0 || points > MAX_POINTS)	// Provjera jesu li bodovi unutar dopuštenog raspona (0 do MAX_POINTS)
-	{
-		printf(BOLD RED "\nInvalid points: %.2lf. Points must be between 0 and %d.\n" RESET, points, MAX_POINTS);	// Ispis poruke o grešci u crvenoj boji s podebljanim stilom ako su uneseni bodovi izvan dopuštenog raspona (0 do MAX_POINTS)
-		return 0;	// Vraća 0 kao signal greške, jer bodovi nisu u valjanom rasponu
-	} 
-	else	// Ako su bodovi unutar raspona, izračunava relativni broj bodova
-		return ((points / MAX_POINTS) * 100);  // Relativni broj bodova se izračunava kao (bodovi studenta / maksimalni broj bodova) * 100
-}			
-
-int showStudents(int noStudents, Student* students)
-{
-	int i = 0;	// Indeks za iteraciju kroz niz studenata
-
-	for (i = 0; i < noStudents; i++)	// Iteracija kroz sve studente
-	{
-		printf("Name: %-10s\tSurname: %-10s\t Absolute points: %.2lf\t\t Relative points: %.2lf%%\t\n",	// Ispis podataka svakog studenta
-			students[i].name,	// Ime studenta (minimalna širina polja za ispisivanje stringa je 10 znakova, poravnato ulijevo)  
-			students[i].surname,	// Prezime studenta (minimalna širina polja za ispisivanje stringa je 10 znakova, poravnato ulijevo)
-			students[i].points,	// Apsolutni broj bodova (na 2 decimale)
-			calculateRelativePoints(students[i].points));	// Pozivanje funkcije za izračun relativnih broja bodova, izražen kao postotak (na 2 decimale) 
-	}
-
-	return EXIT_SUCCESS;    // Kraj funkcije, signalizira uspješan završetak
+// Preorder ispis (Root, Left, Right)
+void Preorder(tree* root) {
+    if (root != NULL) {
+        printf("%d ", root->value); // Ispisuje root
+        Preorder(root->left);        // Ispisuje lijevo podstablo
+        Preorder(root->right);       // Ispisuje desno podstablo
+    }
 }
 
+// Inorder ispis (Left, Root, Right)
+void Inorder(tree* root) {
+    if (root != NULL) {
+        Inorder(root->left);        // Ispisuje lijevo podstablo
+        printf("%d ", root->value); // Ispisuje root
+        Inorder(root->right);       // Ispisuje desno podstablo
+    }
+}
 
+// Postorder ispis (Left, Right, Root)
+void Postorder(tree* root) {
+    if (root != NULL) {
+        Postorder(root->left);      // Ispisuje lijevo podstablo
+        Postorder(root->right);     // Ispisuje desno podstablo
+        printf("%d ", root->value); // Ispisuje root
+    }
+}
+
+// Ispis stabla po razini
+void Level(tree* root) {
+    int h = Height(root);
+    for (int i = 0; i <= h; i++)
+        Printcurrentlevel(root, i);
+}
+
+// Funkcija za računanje visine stabla
+int Height(tree* root) {
+    if (root == NULL)
+        return 0;
+
+    int LH = Height(root->left);
+    int RH = Height(root->right);
+    int max = (RH > LH) ? RH : LH;
+
+    return max + 1;
+}
+
+// Ispis svih čvorova na određenoj razini
+void Printcurrentlevel(tree* root, int level) {
+    if (root == NULL)
+        return;
+
+    if (level == 1)
+        printf("%d ", root->value); // Ispisuje vrijednost na trenutnoj razini
+    else if (level > 1) {
+        Printcurrentlevel(root->left, level - 1);  // Ispisuje lijevo podstablo
+        Printcurrentlevel(root->right, level - 1); // Ispisuje desno podstablo
+    }
+}
+
+// Pretraga elementa u stablu
+int Search(tree* root, int value) {
+    if (root == NULL)
+        return 0;
+    if (root->value == value)
+        return 1;
+    if (value < root->value)
+        return Search(root->left, value);
+    else
+        return Search(root->right, value);
+}
+
+// Pronađe minimum u desnom podstablu
+tree* Min(tree* root) {
+    while (root->left != NULL)
+        root = root->left;
+    return root;
+}
+
+// Brisanje elementa iz stabla
+tree* Delete(tree* root, int value) {
+    if (root == NULL)
+        return root;
+
+    if (value < root->value)
+        root->left = Delete(root->left, value);
+    else if (value > root->value)
+        root->right = Delete(root->right, value);
+    else {
+        // Čvor sa samo desnim ili lijevim podstablom
+        if (root->right == NULL && root->left == NULL) {
+            free(root);
+            root = NULL;
+        }
+        else if (root->left == NULL) {
+            tree* temp = root;
+            root = root->right;
+            free(temp);
+        }
+        else if (root->right == NULL) {
+            tree* temp = root;
+            root = root->left;
+            free(temp);
+        }
+        else {
+            tree* temp = Min(root->right);
+            root->value = temp->value;
+            root->right = Delete(root->right, temp->value);
+        }
+    }
+    return root;
+}
