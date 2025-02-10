@@ -1,0 +1,4 @@
+﻿  3. zadatak.c
+C:\Users\PC\source\repos\3. zadatak\3. zadatak\3. zadatak.c(237,16): warning C4018: '<': signed/unsigned mismatch
+C:\Users\PC\source\repos\3. zadatak\3. zadatak\3. zadatak.c(246,20): warning C4018: '>=': signed/unsigned mismatch
+  3. zadatak.vcxproj -> C:\Users\PC\source\repos\3. zadatak\Debug\3. zadatak.exe
