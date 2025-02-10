@@ -13,8 +13,8 @@
 #include <stdio.h>	// Uključivanje standardne biblioteke za ulaz/izlaz (npr. printf, fscanf)
 #include <stdlib.h>	// Uključivanje standardne biblioteke za rad s memorijom (npr. malloc, free)
 
-#define MAX_LENGTH 128	// Maksimalna veličina stringa za ime i prezime
 #define MAX_LINE 1024	// Maksimalna veličina buffera za čitanje linije iz datoteke
+#define MAX_LENGTH 128	// Maksimalna veličina stringa za ime i prezime
 #define MAX_POINTS 15	// Maksimalni broj bodova koje student može ostvariti na kolokviju
 #define FILE_ERROR_OPEN -1 // Konstanta koja označava grešku pri otvaranju datoteke
 #define MALLOC_ERROR -2	// Konstanta koja označava grešku pri alokaciji memorije koristeći malloc funkciju
@@ -37,11 +37,11 @@ int showStudents(int noStudents, Student* students);	// Funkcija koja ispisuje p
 
 int main()
 {
-	int noRows = 0;	// Varijabla za broj redaka u datoteci (studenti)
+	int noRows = 0;	// Varijabla za broj redaka	(studenata) u datoteci 
 	Student* students = NULL;	// Pokazivač na niz studenata 
 
 	noRows = readNoRowsInFile();	// Pozivanje funkcije koja vraća broj studenata iz datoteke
-	if (noRows > 0)	// Ako je broj studenata veći od 0
+	if (noRows > 0)	// Ako je broj redaka (studenata) veći od 0
 	{
 		students = allocateMemoryAndReadStudents(noRows);	// Pozivanje funkcije koja dinamički alocira memoriju za niz studenata i učitava podatke o njima
 		if (!students)	// Provjera je li alokacija memorije uspješna (ili students == NULL)
@@ -111,11 +111,11 @@ Student* allocateMemoryAndReadStudents(int noStudents)
 		return NULL;	// Povratna vrijednost koja označava grešku pri alokaciji memorije pomoću malloc funkcije, NULL a ne MALLOC_ERROR jer funckija vraća pokazivač
 	}
 
-	for (i = 0; i < noStudents; i++)	// Iteracija kroz sve studente 
+	for (i = 0; i < noStudents; i++)	// Iteracija kroz sve studente u datoteci 
 	{
-		if (fscanf(filePointer, " %s %s %lf", students[i].name, students[i].surname, &students[i].points) != 3)	// Provjerava je li uspješno pročitao 3 vrijednosti (ime, prezime i bodove) iz datoteke te ih sprema u trenutnu strukturu student
+		if (fscanf(filePointer, " %-10s %-15s %lf", students[i].name, students[i].surname, &students[i].points) != 3)	// Provjerava jesu li uspješno pročitane 3 vrijednosti (ime, prezime i bodove) iz datoteke koje se spremaju u trenutnu strukturu 'Student'
 		{
-			printf("Error reading data from file!\n");	// Ispis poruke o grešci ako čitanje podataka iz datoteke nije uspješno
+			printf("Error reading data from file!\n");	// Ispis poruke o grešci ako čitanje podataka iz datoteke nije uspješan
 			free(students);	// Oslobađanje prethodne alocirane memorije
 			fclose(filePointer);	// Zatvaranje datoteke
 			return NULL;	// Povratna vrijednost koja označava grešku pri čitanju podataka iz datoteke, NULL a ne SCANF_ERROR jer funckija vraća pokazivač
