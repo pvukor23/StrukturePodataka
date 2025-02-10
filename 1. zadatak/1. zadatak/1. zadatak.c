@@ -24,7 +24,7 @@
 #define RED     "\033[31m"	// ANSI escape sekvenca za postavljanje boje teksta na crvenu
 #define BOLD    "\033[1m"	// ANSI escape sekvenca za podebljavanje teksta (bold stil)
 
-typedef struct _Student {	// Definicija strukture za studenta
+typedef struct student {	// Definicija strukture za studenta
 	char name[MAX_LENGTH];	// Polje za ime studenta (do 128 znakova)
 	char surname[MAX_LENGTH];	// Polje za prezime studenta (do 128 znakova)
 	double points;	// Bodovi studenta na kolokviju
