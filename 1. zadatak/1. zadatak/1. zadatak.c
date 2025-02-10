@@ -28,7 +28,7 @@ typedef struct student {	// Definicija strukture za studenta
 	char name[MAX_LENGTH];	// Polje za ime studenta (do 128 znakova)
 	char surname[MAX_LENGTH];	// Polje za prezime studenta (do 128 znakova)
 	double points;	// Bodovi studenta na kolokviju
-} Student;	// Alias za strukturu _Student, sada možemo koristiti 'Student' kao tip podataka
+} Student;	// Alias za strukturu student, sada možemo koristiti 'Student' kao tip podataka
 
 // Prototipi funkcija koje će biti implementirane
 int readNoRowsInFile();	// Funkcija koja vraća broj studenata (redaka u datoteci)
