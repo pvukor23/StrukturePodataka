@@ -59,7 +59,7 @@ int deleteList(Position head);	// Funkcija koja briše cijelu listu osoba i osig
 
 int main()
 {
-	Person head = { .name = {0}, .surname = {0}, .birthYear = 0, .next = NULL };	// Inicijalizacija čvora liste (head) s praznim podacima; ovo je početni čvor koji služi kao glava liste
+	Person head = { .name = { 0 }, .surname = { 0 }, .birthYear = 0, .next = NULL };	// Inicijalizacija čvora liste (head) s praznim podacima; ovo je početni čvor koji služi kao glava liste
 	
 	menu(&head);	// Pozivanje funkcije menu koja omogućuje korisniku upravljanje povezanim popisom osoba
 
