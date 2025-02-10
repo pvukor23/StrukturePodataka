@@ -16,8 +16,10 @@
 
 #define MAX_LINE 1024	// Maksimalna veličina buffera za čitanje linije iz datoteke
 #define MAX_LENGTH 128	// Maksimalna veličina stringa za ime i prezime
+
 #define VALID_INPUT 1	// Konstanta koja označava valjan unos
 #define INVALID_INPUT 0	// Konstanta koja označava nevaljan unos
+
 #define MALLOC_ERROR -1	// Konstanta koja označava grešku pri alokaciji memorije koristeći malloc funkciju
 #define EMPTY_LIST -2	// Konstanta koja označava praznu listu
 #define FILE_ERROR_OPEN -3	// Konstanta koja označava grešku pri otvaranju datoteke
