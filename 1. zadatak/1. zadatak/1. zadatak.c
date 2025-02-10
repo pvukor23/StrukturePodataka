@@ -16,6 +16,7 @@
 #define MAX_LINE 1024	// Maksimalna veličina buffera za čitanje linije iz datoteke
 #define MAX_LENGTH 128	// Maksimalna veličina stringa za ime i prezime
 #define MAX_POINTS 15	// Maksimalni broj bodova koje student može ostvariti na kolokviju
+
 #define FILE_ERROR_OPEN -1 // Konstanta koja označava grešku pri otvaranju datoteke
 #define MALLOC_ERROR -2	// Konstanta koja označava grešku pri alokaciji memorije koristeći malloc funkciju
 
