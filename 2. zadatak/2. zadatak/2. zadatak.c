@@ -1,4 +1,4 @@
-﻿/*
+/*
 	2.	Definirati strukturu osoba (ime, prezime, godina rođenja) i napisati program koji:
 			A. dinamički dodaje novi element na početak liste,
 			B. ispisuje listu,
@@ -16,8 +16,8 @@
 #include <ctype.h>	// Uključivanje standardne biblioteke za rad s funkcijama za manipulaciju karakterima (npr. isalpha, tolower, toupper)
 
 #define MAX_LENGTH 128	// Maksimalna veličina stringa za ime i prezime
-#define INVALID_INPUT 0	// Konstanta koja označava nevaljan unos
 #define VALID_INPUT 1	// Konstanta koja označava valjan unos
+#define INVALID_INPUT 0	// Konstanta koja označava nevaljan unos
 #define MALLOC_ERROR -1	// Konstanta koja označava grešku pri alokaciji memorije koristeći malloc funkciju
 #define EMPTY_LIST -2	// Konstanta koja označava praznu listu
 
@@ -41,11 +41,11 @@ typedef struct _Person {	// Definicija strukture za osobu
 int menu(Position head);	// Funkcija za prikaz glavnog izbornika s opcijama za korisnika.
 int validStringInput(char* input, int max_length);	// Funkcija koja provjerava valjanost unosa stringa
 int validBirthYear(int year);	// Funkcija koja provjerava valjanost unosa godine rođenja
-Position createPerson();	// Funkcija koja stvara novi element (osobu) u listi i vraća pokazivač na taj element
+Position createPerson();	// Funkcija koja stvara novu osobu u listi i vraća pokazivač na tu osobu
 int prependList(Position head);	// Funkcija koja dodaje novu osobu na početak liste
 int printPerson(Position person);	// Funkcija koja ispisuje podatke o jednoj osobi
-int printList(Position first);	// Funkcija koja ispisuje cijelu listu osoba
-Position findLast(Position first);	// Funkcija koja pronalazi zadnju osobu u listi
+int printList(Position first);	// Funkcija koja ispisuje trenutnu listu osoba
+Position findLast(Position first);	// Funkcija koja pronalazi posljednju osobu u listi
 int appendList(Position head);	// Funkcija koja dodaje novu osobu na kraj liste
 Position findPersonBySurname(Position head, char* surname);	// Funkcija koja traži osobu u listi prema prezimenu i vraća pokazivač na tu osobu
 Position findPreviousPerson(Position head, char* surname);	// Funkcija koja pronalazi prethodnu osobu u listi na temelju prezimena
@@ -74,9 +74,9 @@ int menu(Position head)
 		// Ispis izbornika s dostupnim opcijama
 		printf("\nChoose an option:\n");	// Ispis poruke koja traži od korisnika da odabere opciju
 		printf("f - Add a new person at the front of the list\n");	// Dodavanje osobe na početak liste
-		printf("p - Print the current list of people\n");	// Ispis svih osoba u listi
+		printf("p - Print the current list of people\n");	// Ispis svih osoba u trenutnoj listi
 		printf("e - Add a new person at the end of the list\n");	// Dodavanje osobe na kraj liste
-		printf("s - Find a person by surname\n");	// Pronalaženje osobe prema prezimenu
+		printf("s - Find a person by surname in the list\n");	// Pronalaženje osobe prema prezimenu u listi
 		printf("d - Delete a person from the list\n");	// Brisanje osobe iz liste prema prezimenu
 		printf("x - Exit the program\n");	// Izlazak iz programa
 
@@ -95,17 +95,17 @@ int menu(Position head)
 		switch (choice)	// Odabir korisničke opcije na temelju unesenog izbora
 		{
 			case 'f':	 // Ako korisnik odabere 'f', dodaje novu osobu na početak liste
-					printf("Add a new person at the front of the list\n");	// Ispis poruke da se dodaje nova osoba na početak liste
+					printf("Add a new person at the front of the list.\n");	// Ispis poruke da se dodaje nova osoba na početak liste
 					prependList(head);	// Pozivanje funkcije za dodavanje nove osobe na početak liste
 					break;	// Izlazi iz switch bloka nakon što je opcija obrađena
 
-			case 'p':	// Ako korisnik odabere 'p', ispisuje cijelu listu osoba
+			case 'p':	// Ako korisnik odabere 'p', ispisuje trenutnu listu osoba
 					printf("Printing the current list of persons...\n");	// Ispis poruke da se ispisuje trenutna list osoba
-					printList(head->next);	// Pozivanje funkcije za ispis cijele liste osoba
+					printList(head->next);	// Pozivanje funkcije za ispis trenutne liste osoba
 					break;	// Izlazi iz switch bloka nakon što je opcija obrađena
 
 			case 'e':	// Ako korisnik odabere 'e', dodaje novu osobu na kraj liste
-					printf("Add a new person at the end of the list\n");	// Ispis poruke da se dodaje nova osoba na kraj liste
+					printf("Add a new person at the end of the list.\n");	// Ispis poruke da se dodaje nova osoba na kraj liste
 					appendList(head);	// Pozivanje funkcije za dodavanje nove osobe na kraj liste
 					break;	// Izlazi iz switch bloka nakon što je opcija obrađena
 						
@@ -123,7 +123,7 @@ int menu(Position head)
 
 					found = findPersonBySurname(head->next, surname);  // Poziv funkcije za pronalazak osobe u listi prema prezimenu
 					if (found)	// Ako je osoba pronađena (found != NULL)
-						printPerson(found);  // Ispis podataka pronađene osobe
+						printPerson(found);  // Pozivanje funkcije za ispis podataka pronađene osobe
 					else	// Ako osoba nije pronađena	
 						printf("Person with surname '%s' was not found.\n", surname);  // Ispis poruke o neuspješnom pronalasku tražene osobe
 					break;	// Izlazi iz switch bloka nakon što je opcija obrađena
@@ -139,14 +139,13 @@ int menu(Position head)
 						}
 						break;  // Ako je unos ispravan, izađi iz petlje
 					}
-					deletePerson(head, surname);	// Poziv funkcije za brisanje osobe iz liste prema prezimenu
+					deletePerson(head, surname);	// Pozivanje funkcije za brisanje osobe iz liste prema prezimenu
 					break;	// Izlazi iz switch bloka nakon što je opcija obrađena
 
 			case 'x':	// Ako korisnik odabere 'x', izlazi iz programa
 					printf("Exiting the program.\n");	// Ispis poruke o izlasku iz programa
-					deleteList(&head);	// Oslobađa svu memoriju dodijeljenu za listu
+					deleteList(head);	//	Pozivanje funkcije koja oslobađa svu memoriju dodijeljenu za listu
 					return EXIT_SUCCESS;	// Kraj programa, signalizira uspješan završetak
-					break;	// Izlazi iz switch bloka nakon što je opcija obrađena
 
 			default:	// Ako korisnik unese bilo koju drugu opciju koja nije među ponuđenim
 					printf(BOLD RED "Invalid choice. Try again.\n"  RESET);	// Ispis poruke o nevažećem odabiru u crvenoj boji s podebljanim stilom kako bi korisnik primijetio grešku
@@ -155,7 +154,7 @@ int menu(Position head)
 
 	} while(choice != 'x');	 // Petlja traje sve dok korisnik ne unese 'x' za izlaz
 
-	deleteList(&head);	// Oslobađa svu memoriju dodijeljenu za listu
+	deleteList(head);	//	Pozivanje funkcije koja oslobađa svu memoriju dodijeljenu za listu
 	
 	return EXIT_SUCCESS;	// Kraj funkcije, signalizira uspješan završetak
 }
@@ -167,7 +166,7 @@ int validStringInput(char* input, int max_length)
 	if (strlen(input) == 0)	// Provjera je li unos prazan
 	{
 		printf(BOLD RED "Input cannot be empty!\n" RESET);	// Ispis poruke o praznom unosu u crvenoj boji s podebljanim stilom kako bi korisnik primijetio grešku
-		return INVALID_INPUT; // Nevalidan unos
+		return INVALID_INPUT; // Povratna vrijednost označava nevaljan unos
 	}
 
 	for (i = 0; i < strlen(input); i++)	// Provjera sadrži li unos samo slova
@@ -175,17 +174,17 @@ int validStringInput(char* input, int max_length)
 		if (!isalpha(input[i]))	// Provjera je li trenutni znak abecedni znak (slovo)
 		{
 			printf(BOLD RED "Input can only contain alphabetic characters!\n" RESET);	// Ispis poruke ako unos sadrži nevažeće znakove u crvenoj boji s podebljanim stilom kako bi korisnik primijetio grešku
-			return INVALID_INPUT; // Povratna vrijednost označava nevažeći unos
+			return INVALID_INPUT; // Povratna vrijednost označava nevaljan unos
 		}
 	}
 
 	if (strlen(input) >= max_length)	// Provjera dužine unosa
 	{
 		printf(BOLD RED "Input exceeds maximum length of %d characters!\n" RESET, max_length);	// Ispis poruke ako unos premašuje maksimalnu duljinu u crvenoj boji s podebljanim stilom kako bi korisnik primijetio grešku
-		return INVALID_INPUT; // Povratna vrijednost označava nevažeći unos
+		return INVALID_INPUT; // Povratna vrijednost označava nevaljan unos
 	}
 
-	return VALID_INPUT; // Povratna vrijednost označava važeći unos
+	return VALID_INPUT; // Povratna vrijednost označava valjan unos
 }
 
 int validBirthYear(int year) 
@@ -195,19 +194,21 @@ int validBirthYear(int year)
 	if (year < 1900 || year > currentYear)	 // Provjera je li godina manja od 1900 ili veća od trenutne godine 
 	{
 		printf(BOLD RED "Invalid year! Year must be between 1900 and %d.\n" RESET, currentYear);	// Ispis poruke o nevažećoj godini u crvenoj boji s podebljanim stilom kako bi korisnik primijetio grešku
-		return INVALID_INPUT; // Povratna vrijednost označava nevažeći unos
+		return INVALID_INPUT; // Povratna vrijednost označava nevaljan unos
 	}
 
-	return VALID_INPUT; // Povratna vrijednost označava važeći unos
+	return VALID_INPUT; // Povratna vrijednost označava valjan unos
 }
-
 
 Position createPerson()
 {
-	Position newPerson = NULL;	// Pokazivač na dinamički alocirani novi element (osobu) liste tipa Position
+	Position newPerson = NULL;	// Pokazivač na dinamički alocirani novi element (osobu) koji će biti ubačen u listu tipa Position
 	char name[MAX_LENGTH] = { 0 };	// Polje za pohranu imena osobe
 	char surname[MAX_LENGTH] = { 0 };	// Polje za pohranu prezimena osobe
 	int birthYear = 0;	// Varijabla za pohranu godine rođenja osobe
+	int validName = 0;	// Varijabla koja označava valjanost unosa imena, inicijalizirana na 0 što označava da je unos imena nevaljan
+	int validSurname = 0;	// Varijabla koja označava valjanost unosa prezimena, inicijalizirana na 0 što označava da je unos prezimena nevaljan
+	int validYear = 0;	// Varijabla koja označava valjanost unosa godine, inicijalizirana na 0 što označava da je unos godine nevaljan
 
 	newPerson = (Position)malloc(sizeof(Person));	// Dinamičko alociranje memorije za novi element (osobu)  [newPerson =(Person*)malloc(sizeof(Person));]
 	if (!newPerson)	// Provjera je li alokacija memorije uspješna (ili newPerson == NULL)
@@ -216,7 +217,6 @@ Position createPerson()
 		return NULL;	// Povratna vrijednost koja označava grešku pri alokaciji memorije pomoću malloc funkcije, NULL a ne MALLOC_ERROR jer funckija vraća pokazivač
 	}
 
-	int validName = 0;	// Varijabla koja označava valjanost unosa imena, inicijalizirana na 0 što označava da je unos imena nevaljan
 	while (!validName)	// Petlja koja traje dok korisnik ne unese ispravno ime (ili validName == 0)
 	{
 		printf("Enter name:\n");	// Ispis poruke koja traži od korisnika da unese ime osobe 
@@ -228,7 +228,6 @@ Position createPerson()
 		validName = 1;	// Postavljanje varijable validName na 1, što označava da je unos imena valjan
 	}
 
-	int validSurname = 0;	// Varijabla koja označava valjanost unosa prezimena, inicijalizirana na 0 što označava da je unos prezimena nevaljan
 	while (!validSurname)	// Petlja koja traje dok korisnik ne unese ispravno prezime (ili validSurname == 0)
 	{
 		printf("Enter surname:\n");	// Ispis poruke koja traži od korisnika da unese prezime osobe
@@ -240,7 +239,6 @@ Position createPerson()
 		validSurname = 1;	// Postavljanje varijable validSurname na 1, što označava da je unos prezimena valjan
 	}
 
-	int validYear = 0;	// Varijabla koja označava valjanost unosa godine, inicijalizirana na 0 što označava da je unos godine nevaljan
 	while (!validYear)	// Petlja koja traje dok korisnik ne unese ispravnu godinu (ili validYear == 0)
 	{
 		printf("Enter birth year:\n");	// Ispis poruke koja traži od korisnika da unese godinu rođenja osobe
@@ -261,10 +259,9 @@ Position createPerson()
 	return newPerson;	// Vraća pokazivač na novokreirani element (osobu)
 }
 
-
 int prependList(Position head)
 {
-	Position newPerson = NULL;	// Pokazivač na novi element (osobu) liste  
+	Position newPerson = NULL;	// Pokazivač na novi element (osobu) koji će biti ubačen u listu 
 
 	newPerson = createPerson();	// Pozivanje funkcije koja stvara novi element (osobu) i vraća njen pokazivač
 	if (!newPerson)	// Provjera je li alokacija memorije uspješna (ili newPerson == NULL)
@@ -283,13 +280,13 @@ int prependList(Position head)
 
 int printPerson(Position person)
 {
-	printf(BOLD GREEN "Name: %s\t Surname: %s\t Birth year: %d\t\n" RESET, person->name, person->surname, person->birthYear);	// Ispis podataka za trenutni element (osobu) liste u zelenoj boji s podebljanim stilom 
+	printf(BOLD GREEN "Name: %-10s  Surname: %-15s  Birth year: %d\n" RESET, person->name, person->surname, person->birthYear);	// Ispis podataka za trenutni element (osobu) liste u zelenoj boji s podebljanim stilom 
 	return EXIT_SUCCESS;	// Kraj funkcije, signalizira uspješan završetak
 }
 
 int printList(Position first)
 {
-	Position current = first;	// Pokazivač 'current' (trenutnog elementa (osobe)), inicijaliziran na prvi element (osobu) liste
+	Position current = first;	// Pokazivač 'current' na trenutni element (osobu), inicijaliziran na prvi element (osobu) u listi
 
 	if (!current)	// Provjera je li lista prazna (prvi element je NULL) (ili current == NULL)
 	{
@@ -307,11 +304,9 @@ int printList(Position first)
 	return EXIT_SUCCESS;	// Kraj funkcije, signalizira uspješan završetak
 }
 
-// Povratna vrijednost koja označava da osoba s traženim prezimenom nije pronađena u listi
-
 Position findLast(Position first)
 {
-	Position current = first;	// Pokazivač 'current' (trenutnog elementa (osobe)), inicijaliziran na prvi element (osobu) liste
+	Position current = first;	// Pokazivač 'current' na trenutni element (osobu), inicijaliziran na prvi element (osobu) u listi
 
 	if (!current)	// Provjera je li lista prazna (prvi element je NULL) (ili current == NULL)
 	{
@@ -327,8 +322,8 @@ Position findLast(Position first)
 
 int appendList(Position head)
 {
-	Position newPerson = NULL;	// Pokazivač za novi element (osobu) liste 
-	Position last = NULL;;	// Pokazivača za zadnji element (osobu) liste 
+	Position newPerson = NULL;	// Pokazivač na novi element (osobu) koji će biti ubačen u listu
+	Position last = NULL;;	// Pokazivača na zadnji element (osobu) liste 
 
 	newPerson = createPerson();	// Pozivanje funkcije koja stvara novi element (osobu) i vraća njen pokazivač
 	if (!newPerson)	// Provjera je li alokacija memorije uspješna (ili newPerson == NULL)
@@ -337,7 +332,7 @@ int appendList(Position head)
 		return MALLOC_ERROR;	// Povratna vrijednost koja označava grešku pri alokaciji memorije pomoću malloc funkcije
 	}
 		
-	last = findLast(head->next);	// Pozivanje funkcije da pronađemo posljednji element u listi
+	last = findLast(head->next);	// Pozivanje funkcije da pronađemo posljednji element (osobu) u listi
 	
 	if (!last)	// Ako je lista prazna (head->next == NULL)
 		head->next = newPerson;	// Postavljanje novog elementa (osobe) kao prvi član liste
@@ -352,7 +347,7 @@ int appendList(Position head)
 
 Position findPersonBySurname(Position first, char* surname)
 {
-	Position current = first;	// Pokazivač 'current' (trenutnog elementa (osobe)), inicijaliziran na prvi element (osobu) liste
+	Position current = first;	// Pokazivač 'current' na trenutni element (osobu), inicijaliziran na prvi element (osobu) u listi
 
 	while (current != NULL && strcmp(current->surname, surname) != 0)	 // Prolazak kroz listu dok ne dođe do podudaranja prezimena ili dok ne dođe do kraja liste
 		current = current->next;	// Pomicanje na sljedeći element (osobu) u listi
@@ -363,7 +358,7 @@ Position findPersonBySurname(Position first, char* surname)
 
 Position findPreviousPerson(Position head, char* surname)
 {
-	Position previous = head;	// Pokazivač 'previous' (prethodnog elementa (osobe)), inicijaliziran na head liste
+	Position previous = head;	// Pokazivač 'previous' na prethodni element (osobu), inicijaliziran na početak liste (head)
 
 	while (previous->next != NULL && strcmp(previous->next->surname, surname) != 0)	// Prolazak kroz listu dok ne dođe do podudaranja prezimena ili dok ne dođe do kraja liste
 		previous = previous->next;	// Pomicanje na sljedeći element liste
@@ -377,8 +372,8 @@ Position findPreviousPerson(Position head, char* surname)
 
 int deletePerson(Position head, char* surname)
 {
-	Position previous = head;	// Pokazivač 'previous' (prethodnog elementa (osobe)), inicijaliziran na head liste
-	Position temp = NULL;	// Pokazivač za privremeno spremanje elementa koji se briše
+	Position previous = head;	// Pokazivač 'previous' na prethodni element (osobu), inicijaliziran na početak liste (head)
+	Position temp = NULL;	// Pokazivač za privremeno spremanje elementa (osobe) koji se briše iz liste
 
 	previous = findPreviousPerson(head, surname);	// Pozivanje funkcije za pronalaženje prethodnog elementa (osobe) s traženim prezimenom
 
@@ -398,7 +393,7 @@ int deletePerson(Position head, char* surname)
 
 int deleteList(Position head)
 {
-	Position temp = NULL;	// Pokazivač za privremeno spremanje elementa koji se briše
+	Position temp = NULL;	// Pokazivač za privremeno spremanje elementa (osobe) koji se briše iz liste
 
 	while (head->next != NULL) // Prolazak kroz listu dok god postoji sljedeći element (osoba) (ili head->next)
 	{
