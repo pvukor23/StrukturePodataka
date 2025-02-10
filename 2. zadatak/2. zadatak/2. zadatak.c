@@ -28,9 +28,9 @@
 #define GREEN   "\033[32m"  // ANSI escape sekvenca za postavljanje boje teksta na zelenu
 #define BOLD    "\033[1m"	// ANSI escape sekvenca za podebljavanje teksta (bold stil)
 
-struct _Person;	// Unaprijedna deklaracija strukture _Person omogućava korištenje pokazivača na nju prije njene potpune definicije
-typedef struct _Person* Position;	// Alias za pokazivač na strukturu _person, koristi se za povezivanje elemenata u listi
-typedef struct _Person {	// Definicija strukture za osobu
+struct person;	// Unaprijedna deklaracija strukture _Person omogućava korištenje pokazivača na nju prije njene potpune definicije
+typedef struct person* Position;	// Alias za pokazivač na strukturu _person, koristi se za povezivanje elemenata u listi
+typedef struct person {	// Definicija strukture za osobu
 	// Data
 	char name[MAX_LENGTH];	// Polje za ime studenta (do 128 znakova)
 	char surname[MAX_LENGTH];	// Polje za prezime studenta (do 128 znakova)
