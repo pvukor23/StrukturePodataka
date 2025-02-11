@@ -618,21 +618,20 @@ int readNoRowsInFile()
 
 Position createPersonFromFile(char* name, char* surname, int birthYear)
 {
-	Position newPerson = NULL;	// Pokazivač na dinamički alocirani novi element (osobu) koji će biti ubačen u listu tipa Position
 	int currentYear = 2025;	// Varijabla koja definira trenutnu godinu
+	Position newPerson = NULL;	// Pokazivač na dinamički alocirani novi element (osobu) koji će biti ubačen u listu tipa Position
+
+	if (strlen(name) >= MAX_LENGTH || strlen(surname) >= MAX_LENGTH || birthYear < 1900 || birthYear > currentYear)	// Provjera duljine imena / prezimena te ispravnosti godine rođenja(1900 ≤ birthYear ≤ currentYear)
+	{
+		printf(BOLD RED "Invalid data!\n" RESET);	// Ispis poruke o grešci ako učitani podaci nisu valjani u crvenoj boji s podebljanim stilom kako bi korisnik primijetio grešku
+		return NULL;	// Povratna vrijednost označava nevaljan unos, NULL a ne INVALID_INPUT jer funckija vraća pokazivač
+	}
 
 	newPerson = (Position)malloc(sizeof(Person));	// Dinamičko alociranje memorije za novi element (osobu)  [newPerson =(Person*)malloc(sizeof(Person));]
 	if (!newPerson)	// Provjera je li alokacija memorije uspješna (ili newPerson == NULL)
 	{
 		printf("Error allocating memory!\n");	// Ispis poruke o grešci ako alokacija memorije nije uspjela
 		return NULL;	// Povratna vrijednost koja označava grešku pri alokaciji memorije pomoću malloc funkcije, NULL a ne MALLOC_ERROR jer funckija vraća pokazivač
-	}
-
-	if (strlen(name) >= MAX_LENGTH || strlen(surname) >= MAX_LENGTH || birthYear < 1900 || birthYear > currentYear)	// Provjera duljine imena / prezimena te ispravnosti godine rođenja(1900 ≤ birthYear ≤ currentYear)
-	{
-		printf(BOLD RED "Invalid data!\n" RESET);	// Ispis poruke o grešci ako učitani podaci nisu valjani u crvenoj boji s podebljanim stilom kako bi korisnik primijetio grešku
-		free(newPerson);	// Oslobađanje prethodne alocirane memorije
-		return NULL;	// Povratna vrijednost označava nevaljan unos, NULL a ne INVALID_INPUT jer funckija vraća pokazivač
 	}
 
 	// Kopiranje unesenih podataka u strukturu
