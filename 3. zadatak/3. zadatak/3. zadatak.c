@@ -630,7 +630,7 @@ Position createPersonFromFile(char* name, char* surname, int birthYear)
 
 	if (strlen(name) >= MAX_LENGTH || strlen(surname) >= MAX_LENGTH || birthYear < 1900 || birthYear > currentYear)	// Provjera duljine imena / prezimena te ispravnosti godine rođenja(1900 ≤ birthYear ≤ currentYear)
 	{
-		printf(BOLD RED "Invalid input!\n" RESET);	// Ispis poruke o grešci ako učitani podaci nisu valjani u crvenoj boji s podebljanim stilom kako bi korisnik primijetio grešku
+		printf(BOLD RED "Invalid data!\n" RESET);	// Ispis poruke o grešci ako učitani podaci nisu valjani u crvenoj boji s podebljanim stilom kako bi korisnik primijetio grešku
 		free(newPerson);	// Oslobađanje prethodne alocirane memorije
 		return NULL;	// Povratna vrijednost označava nevaljan unos, NULL a ne INVALID_INPUT jer funckija vraća pokazivač
 	}
