@@ -145,7 +145,7 @@ int showStudents(int noStudents, Student* students)
 
 	for (i = 0; i < noStudents; i++)	// Iteracija kroz sve studente
 	{
-		printf("Name: %-10s\tSurname: %-10s\t Absolute points: %.2lf\t\t Relative points: %.2lf%%\t\n",	// Ispis podataka svakog studenta
+		printf("Name: %-10s\t Surname: %-10s\t Absolute points: %.2lf\t\t Relative points: %.2lf%%\t\n",	// Ispis podataka svakog studenta
 			students[i].name,	// Ime studenta (minimalna širina polja za ispisivanje stringa je 10 znakova, poravnato ulijevo)  
 			students[i].surname,	// Prezime studenta (minimalna širina polja za ispisivanje stringa je 10 znakova, poravnato ulijevo)
 			students[i].points,	// Apsolutni broj bodova (na 2 decimale)
