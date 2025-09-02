@@ -1,0 +1,4 @@
+﻿  Source.c
+C:\Users\PC\source\repos\jesenski 2024\jesenski 2024\Source.c(53,18): warning C4244: 'function': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\PC\source\repos\jesenski 2024\jesenski 2024\Source.c(180): warning C4716: 'findAndPrintRepeatedValues': must return a value
+  jesenski 2024.vcxproj -> C:\Users\PC\source\repos\jesenski 2024\Debug\jesenski 2024.exe
