@@ -144,6 +144,7 @@ StudentP createStudent1(char* firstName, char* lastName, int subject1)
 	newStudent->subject1 = subject1;
 	newStudent->subject2 = 0;
 	newStudent->subject3 = 0;
+	newStudent->average = 0.0;
 	newStudent->next = NULL;
 
 	return newStudent;
@@ -206,6 +207,7 @@ StudentP createStudent2(char* firstName, char* lastName, int subject2)
 	newStudent->subject1 = 0;
 	newStudent->subject2 = subject2;
 	newStudent->subject3 = 0;
+	newStudent->average = 0.0;
 	newStudent->next = NULL;
 
 	return newStudent;
@@ -268,6 +270,7 @@ StudentP createStudent3(char* firstName, char* lastName, int subject3)
 	newStudent->subject1 = 0;
 	newStudent->subject2 = 0;
 	newStudent->subject3 = subject3;
+	newStudent->average = 0.0;
 	newStudent->next = NULL;
 
 	return newStudent;
@@ -388,6 +391,7 @@ StudentP createStudent(char* firstName, char* lastName, int subject1, int subjec
 	newStudent->subject1 = subject1;
 	newStudent->subject2 = subject2;
 	newStudent->subject3 = subject3;
+	newStudent->average = 0.0;
 	newStudent->next = NULL;
 
 	return newStudent;
@@ -437,6 +441,42 @@ StudentP newList(StudentP head1, StudentP head2, StudentP head3, StudentP newHea
 
 	return newHead;
 }
+
+//StudentP findStudent(StudentP head, char* firstName, char* lastName) {
+//	StudentP current = head->next;
+//	while (current != NULL) {
+//		if (strcmp(current->firstName, firstName) == 0 &&
+//			strcmp(current->lastName, lastName) == 0) {
+//			return current;
+//		}
+//		current = current->next;
+//	}
+//	return NULL;
+//}
+//
+//StudentP newList(StudentP head1, StudentP head2, StudentP head3, StudentP newHead) {
+//	StudentP current1 = head1->next;
+//	StudentP s2, s3, newStudent;
+//
+//	while (current1 != NULL) {
+//		s2 = findStudent(head2, current1->firstName, current1->lastName);
+//		s3 = findStudent(head3, current1->firstName, current1->lastName);
+//
+//		if (s2 && s3) {
+//			newStudent = createStudent(
+//				current1->firstName,
+//				current1->lastName,
+//				current1->subject1,
+//				s2->subject2,
+//				s3->subject3
+//			);
+//			insertSorted(newHead, newStudent);
+//		}
+//		current1 = current1->next;
+//	}
+//
+//	return newHead;
+//}
 
 int calculateAverageGrade(StudentP first)
 {
