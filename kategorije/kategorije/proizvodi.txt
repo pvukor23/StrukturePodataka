@@ -1,0 +1,17 @@
+﻿Jabuka Voce
+Banana Voce
+Kruska Voce
+Krumpir Povrce
+Mrkva Povrce
+Rajcica Povrce
+Mlijeko Mlijecni_proizvodi
+Jogurt Mlijecni_proizvodi
+Sir Mlijecni_proizvodi
+Piletina Meso
+Junetina Meso
+Voda Pica
+Sok Pica
+Pivo Pica
+Cokolada Slatkisi
+Bomboni Slatkisi
+Keks Slatkisi

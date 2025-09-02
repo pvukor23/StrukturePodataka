@@ -1,0 +1,3 @@
+﻿  Source.c
+C:\Users\PC\source\repos\kategorije\kategorije\Source.c(59,21): warning C4244: 'function': conversion from 'time_t' to 'unsigned int', possible loss of data
+  kategorije.vcxproj -> C:\Users\PC\source\repos\kategorije\Debug\kategorije.exe

@@ -1,0 +1,6 @@
+Voce 2 6
+Povrce 1 8
+Mlijecni_proizvodi 5 20
+Meso 15 50
+Pica 3 25
+Slatkisi 4 30

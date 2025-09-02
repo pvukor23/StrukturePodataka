@@ -1,0 +1,5 @@
+﻿  Source.c
+C:\Users\PC\source\repos\3 predmeta\3 predmeta\Source.c(457,66): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\PC\source\repos\3 predmeta\3 predmeta\Source.c(458,31): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\PC\source\repos\3 predmeta\3 predmeta\Source.c(477,10): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 3 has type 'double'
+  3 predmeta.vcxproj -> C:\Users\PC\source\repos\3 predmeta\Debug\3 predmeta.exe
