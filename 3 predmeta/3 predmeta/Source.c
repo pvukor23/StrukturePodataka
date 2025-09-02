@@ -1,4 +1,4 @@
-﻿/* Napisati program koji za tri različita predmeta čita ime i prezime studenta te njegovu ocjenu.
+/* Napisati program koji za tri različita predmeta čita ime i prezime studenta te njegovu ocjenu.
 Podaci o svakom predmetu se nalaze u odvojenoj datoteci i iz svake datoteke je potrebno kreirati vezanu listu i ispisati je.
 a) Nakon toga potrebno je kreirati novu listu koja sadrži imena studenata koji su položili sva tri predmeta.
 b) Nadopuniti zadatak pod a) tako da se ispiše nova vezana lista koja osim što sadrži imena studenata, sadrži i
@@ -42,10 +42,7 @@ StudentP createStudent(char* firstName, char* lastName, int subject1, int subjec
 StudentP newList(StudentP head1, StudentP head2, StudentP head3, StudentP newHead);
 int calculateAverageGrade(StudentP first);
 int printList(StudentP first);
-int deleteList1(StudentP head1);
-int deleteList2(StudentP head2);
-int deleteList3(StudentP head3);
-int deleteNewList(StudentP newHead);
+int deleteList(StudentP head);
 
 int main()
 {
@@ -90,23 +87,23 @@ int main()
 
 	// Ispis nove liste 
 	printf("\nProsli sve:\n\n");
-	printList1(newHead.next);
+	printList(newHead.next);
 
 	// Oslobađanje prve memorije
 	printf("\nOslobadanje prve memorije...\n");
-	deleteList3(&head1);
+	deleteList(&head1);
 
-	// Oslobađanje prve memorije
-	printf("\nOslobadanje prve memorije...\n");
-	deleteList2(&head2);
+	// Oslobađanje druge memorije
+	printf("\nOslobadanje druge memorije...\n");
+	deleteList(&head2);
 
-	// Oslobađanje prve memorije
-	printf("\nOslobadanje prve memorije...\n");
-	deleteList3(&head3);
+	// Oslobađanje trece memorije
+	printf("\nOslobadanje trece memorije...\n");
+	deleteList(&head3);
 
 	// Oslobađanje nove memorije
 	printf("\nOslobadanje nove memorije...\n");
-	deleteNewList(&newHead);
+	deleteList(&newHead);
 
 	return EXIT_SUCCESS;
 }
@@ -145,8 +142,8 @@ StudentP createStudent1(char* firstName, char* lastName, int subject1)
 	strcpy(newStudent->firstName, firstName);
 	strcpy(newStudent->lastName, lastName);
 	newStudent->subject1 = subject1;
-	newStudent->subject2 = 1;
-	newStudent->subject3 = 1;
+	newStudent->subject2 = 0;
+	newStudent->subject3 = 0;
 	newStudent->next = NULL;
 
 	return newStudent;
@@ -206,9 +203,9 @@ StudentP createStudent2(char* firstName, char* lastName, int subject2)
 
 	strcpy(newStudent->firstName, firstName);
 	strcpy(newStudent->lastName, lastName);
-	newStudent->subject1 = 1;
+	newStudent->subject1 = 0;
 	newStudent->subject2 = subject2;
-	newStudent->subject3 = 1;
+	newStudent->subject3 = 0;
 	newStudent->next = NULL;
 
 	return newStudent;
@@ -268,8 +265,8 @@ StudentP createStudent3(char* firstName, char* lastName, int subject3)
 
 	strcpy(newStudent->firstName, firstName);
 	strcpy(newStudent->lastName, lastName);
-	newStudent->subject1 = 1;
-	newStudent->subject2 = 1;
+	newStudent->subject1 = 0;
+	newStudent->subject2 = 0;
 	newStudent->subject3 = subject3;
 	newStudent->next = NULL;
 
@@ -398,12 +395,12 @@ StudentP createStudent(char* firstName, char* lastName, int subject1, int subjec
 
 StudentP newList(StudentP head1, StudentP head2, StudentP head3, StudentP newHead)
 {
-	StudentP current1 = head1->next;
 	StudentP previous1 = head1;
-	StudentP current2 = head2->next;
+	StudentP current1 = head1->next;
 	StudentP previous2 = head2;
-	StudentP current3 = head3->next;
+	StudentP current2 = head2->next;
 	StudentP previous3 = head3;
+	StudentP current3 = head3->next;
 	StudentP newStudent = NULL;
 
 	while (current1 != NULL)
@@ -474,61 +471,17 @@ int printList(StudentP first)
 
 	while (current != NULL)
 	{
-		printf("%s %s %d\n", current->firstName, current->lastName, current->average);
+		printf("%s %s %.2f\n", current->firstName, current->lastName, current->average);
 		current = current->next;
 	}
 
 	return EXIT_SUCCESS;
 }
 
-int deleteList1(StudentP head1)
+
+int deleteList(StudentP head)
 {
-	StudentP previous = head1;
-	StudentP toDelete = NULL;  // ili temp svejedno
-
-	while (previous->next != NULL)
-	{
-		toDelete = previous->next;
-		previous->next = previous->next->next;    // previous->next = toDelete->next;
-		free(toDelete);
-	}
-
-	return EXIT_SUCCESS;
-}
-
-int deleteList2(StudentP head2)
-{
-	StudentP previous = head2;
-	StudentP toDelete = NULL;  // ili temp svejedno
-
-	while (previous->next != NULL)
-	{
-		toDelete = previous->next;
-		previous->next = previous->next->next;    // previous->next = toDelete->next;
-		free(toDelete);
-	}
-
-	return EXIT_SUCCESS;
-}
-
-int deleteList3(StudentP head3)
-{
-	StudentP previous = head3;
-	StudentP toDelete = NULL;  // ili temp svejedno
-
-	while (previous->next != NULL)
-	{
-		toDelete = previous->next;
-		previous->next = previous->next->next;    // previous->next = toDelete->next;
-		free(toDelete);
-	}
-
-	return EXIT_SUCCESS;
-}
-
-int deleteNewList(StudentP newHead)
-{
-	StudentP previous = newHead;
+	StudentP previous = head;
 	StudentP toDelete = NULL;  // ili temp svejedno
 
 	while (previous->next != NULL)
