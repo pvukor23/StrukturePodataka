@@ -1,0 +1,3 @@
+﻿  Source.c
+C:\Users\PC\source\repos\2. ispit (vjezba3)\2. ispit (vjezba3)\Source.c(95,18): warning C4244: 'function': conversion from 'time_t' to 'unsigned int', possible loss of data
+  2. ispit (vjezba3).vcxproj -> C:\Users\PC\source\repos\2. ispit (vjezba3)\Debug\2. ispit (vjezba3).exe
